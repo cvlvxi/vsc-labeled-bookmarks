@@ -53,6 +53,7 @@ export class BookmarkTreeDataProvider implements TreeDataProvider<BookmarkTreeIt
             }
 
             children.forEach(child => child.setParent(element));
+            children.sort((a, b) => a.label! > b.label! ? -1:1);
             this.childElements.set(element, children);
             return Promise.resolve(children);
         }
