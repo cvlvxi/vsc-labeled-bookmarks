@@ -965,6 +965,8 @@ export class Main implements BookmarkDataProvider, BookmarManager {
         let pickItems = bookmarks.map(
             bookmark => BookmarkPickItem.fromBookmark(bookmark, withGroupNames)
         );
+        // Order drop-down list by label 
+        pickItems = pickItems.sort((a, b) => a.label > b.label ? 1:-1);
 
         vscode.window.showQuickPick(
             pickItems,
