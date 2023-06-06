@@ -606,7 +606,7 @@ export class Main implements BookmarkDataProvider, BookmarManager {
             this.decorationFactory
         );
         this.bookmarks.push(bookmark);
-        this.bookmarks.sort(Bookmark.sortByLocation);
+        // this.bookmarks.sort(Bookmark.sortByLocation);
 
         this.tempDocumentBookmarks.delete(fsPath);
         this.tempDocumentDecorations.delete(fsPath);
@@ -965,9 +965,14 @@ export class Main implements BookmarkDataProvider, BookmarManager {
         let pickItems = bookmarks.map(
             bookmark => BookmarkPickItem.fromBookmark(bookmark, withGroupNames)
         );
+        // Add bookmark ordered
+        let count = 1;
+        for(let item of pickItems) {
+            item.label = count.toString().padStart(3, "0") + ": " + item.label;
+            count += 1;
+        }
         // Order drop-down list by label 
         pickItems = pickItems.sort((a, b) => a.label > b.label ? 1:-1);
-
         vscode.window.showQuickPick(
             pickItems,
             {
