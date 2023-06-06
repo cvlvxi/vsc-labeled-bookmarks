@@ -711,7 +711,7 @@ export class Main implements BookmarkDataProvider, BookmarManager {
                     this.decorationFactory
                 );
                 this.addNewDecoratedBookmark(bookmark);
-                this.bookmarks.sort(Bookmark.sortByLocation);
+                // this.bookmarks.sort(Bookmark.sortByLocation);
             }
 
             this.tempDocumentDecorations.delete(fsPath);
