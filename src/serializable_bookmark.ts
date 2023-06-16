@@ -8,6 +8,8 @@ export class SerializableBookmark {
     lineText: string;
     isLineNumberChanged: boolean;
     groupName: string;
+    dateAdded: string;
+    dateWasAdded: boolean;
 
     constructor(
         fsPath: string,
@@ -15,7 +17,9 @@ export class SerializableBookmark {
         characterNumber: number,
         label: string | undefined,
         lineText: string,
-        groupName: string
+        groupName: string,
+        dateAdded: string,
+        dateWasAdded: boolean
     ) {
         this.fsPath = fsPath;
         this.lineNumber = lineNumber;
@@ -24,6 +28,8 @@ export class SerializableBookmark {
         this.lineText = lineText;
         this.isLineNumberChanged = false;
         this.groupName = groupName;
+        this.dateAdded = dateAdded;
+        this.dateWasAdded = dateWasAdded;
     }
 
     public static fromBookmark(bookmark: Bookmark): SerializableBookmark {
@@ -33,7 +39,9 @@ export class SerializableBookmark {
             bookmark.characterNumber,
             bookmark.label,
             bookmark.lineText,
-            bookmark.group.name
+            bookmark.group.name,
+            bookmark.dateAdded,
+            bookmark.dateWasAdded
         );
     }
 }

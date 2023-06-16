@@ -13,6 +13,8 @@ export class Bookmark {
     public isLineNumberChanged: boolean;
     public group: Group;
     public decorationFactory: DecorationFactory;
+    public dateAdded: string;
+    public dateWasAdded: boolean;
 
     private ownDecoration: TextEditorDecorationType | null;
     private bookmarkDecorationUpdatedHandler: (bookmark: Bookmark) => void;
@@ -25,12 +27,16 @@ export class Bookmark {
         label: string | undefined,
         lineText: string,
         group: Group,
-        decorationFactory: DecorationFactory
+        decorationFactory: DecorationFactory,
+        dateAdded: string = "",
+        dateWasAdded: boolean = false,
     ) {
         this.fsPath = fsPath;
         this.lineNumber = lineNumber;
         this.characterNumber = characterNumber;
-        this.label = label;
+        this.dateAdded = (dateAdded === "") ? new Date().toISOString() : dateAdded;
+        this.label = (!dateWasAdded) ? this.dateAdded : "" + (label? " : " + label : "");
+        this.dateWasAdded = true;
         this.lineText = lineText;
         this.failedJump = false;
         this.isLineNumberChanged = false;
@@ -53,7 +59,9 @@ export class Bookmark {
             serialized.label,
             serialized.lineText,
             groupGetter(serialized.groupName),
-            decorationFactory
+            decorationFactory,
+            serialized.dateAdded,
+            serialized.dateWasAdded,
         );
     }
 
@@ -61,6 +69,10 @@ export class Bookmark {
         return a.fsPath.localeCompare(b.fsPath)
             || (a.lineNumber - b.lineNumber)
             || (a.characterNumber - b.characterNumber);
+    }
+
+    public static sortByDateAdded(a: Bookmark, b: Bookmark): number {
+        return a.dateAdded.localeCompare(b.dateAdded);
     }
 
     public resetIsLineNumberChangedFlag() {
